@@ -1,4 +1,4 @@
-# Performance Analysis of TSCH Protocol and Orchestra Scheduling in IoT Networks
+# Script, confiuration and application to deploy a cloud image hosting solution in an automated and resilient approach
 
 [![version](https://img.shields.io/badge/version-0.0.0-blue.svg)](https://github.com/EthanAndreas/CloudAppDeployment)
 [![author](https://img.shields.io/badge/author-EthanAndreas-blue)](https://github.com/EthanAndreas)

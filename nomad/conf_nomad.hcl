@@ -20,7 +20,7 @@ job "cloud" {
             config {
                 image = "ghcr.io/loskeeper/frontend:1.0.0"
                 ports = ["fontend"]
-                args = ["-p","3000:3000"]
+                args = ["--port","3000"]
             }
 
             resources {

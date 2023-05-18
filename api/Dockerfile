@@ -1,4 +1,4 @@
-FROM python:3
+FROM python
 WORKDIR /usr/src/worker
 
 COPY . .
@@ -10,8 +10,6 @@ ENV S3_ENDPOINT_URL=https://s3.100do.se/
 ENV AWS_ACCESS_KEY_ID=Xr38d5bSE8tzDqjD
 ENV AWS_SECRET_ACCESS_KEY=yzolz8jB4lNGMV94ueywL2u4esGScbHg
 
-RUN pip install poetry
 RUN pip install .
-RUN poetry install
 
 CMD ["/usr/local/bin/celery","--app","image_api.worker.app","worker"]

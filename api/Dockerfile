@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3
 WORKDIR /usr/src/worker
 
 ENV CELERY_BROKER_URL=https://queue.100do.se/
@@ -8,7 +8,6 @@ ENV AWS_SECRET_ACCESS_KEY=Ku71sUSsnEKcfB3lw7uA
 
 COPY . .
 
-RUN apt-get update && apt-get install -y curl
 RUN pip install poetry
 RUN poetry --version
 RUN poetry install

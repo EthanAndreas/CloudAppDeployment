@@ -9,7 +9,7 @@ ENV AWS_SECRET_ACCESS_KEY=Ku71sUSsnEKcfB3lw7uA
 COPY . .
 
 RUN apt-get update && apt-get install -y curl
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN pip install poetry
 RUN poetry --version
 RUN poetry install
 RUN poetry run app

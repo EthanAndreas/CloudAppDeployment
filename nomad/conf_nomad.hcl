@@ -5,7 +5,7 @@ job "cloud" {
         count = 1
 
         network {
-            port "fontend"{
+            port "frontend"{
                 static = 3000
                 to = 8081
             }
@@ -19,7 +19,7 @@ job "cloud" {
             driver = "docker"
             config {
                 image = "ghcr.io/loskeeper/frontend:1.0.0"
-                ports = ["fontend"]
+                ports = ["frontend"]
                 args = ["--port","3000"]
             }
 

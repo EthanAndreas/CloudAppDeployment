@@ -1,0 +1,22 @@
+---
+- name: "Create the configuration directory"
+  ansible.builtin.file:
+    path: /etc/nomad/{{ instance_name }}
+    state: directory
+
+- name: "Create the data directory"
+  ansible.builtin.file:
+    path: /opt/nomad/{{ instance_name }}
+    state: directory
+
+- name: "Deploy the instance configuration"
+  ansible.builtin.template:
+    src: nomad.hcl
+    dest: /etc/nomad/{{ instance_name }}/nomad.hcl
+  notify: Restart Nomad instance
+
+- name: "Enable and start instance"
+  ansible.builtin.systemd:
+    name: nomad@{{ instance_name }}.service
+    enabled: true
+    state: started

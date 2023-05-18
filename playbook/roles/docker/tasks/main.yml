@@ -1,0 +1,24 @@
+---
+- name: "Add current user to Docker group"
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: "docker"
+    append: "yes"
+
+- name: "Ensure Docker config directory is present"
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    mode: "0755"
+
+- name: "Push Docker config"
+  ansible.builtin.template:
+    src: "daemon.json"
+    dest: "/etc/docker/daemon.json"
+  notify: Reload Docker
+
+- name: "Enable and start Docker"
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: true
+    state: started

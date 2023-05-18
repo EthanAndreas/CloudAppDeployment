@@ -1,0 +1,22 @@
+init_config:
+
+instances:
+ - unit_names:
+    - docker.service
+    - sshd.service
+    - systemd-networkd.service
+{% if 'gateway' in group_names %}
+    - cloudflared.service
+{% endif %}
+{% if 'queue' in group_names %}
+    - rabbitmq-server.service
+{% endif %}
+{% if 'storage' in group_names %}
+    - minio.service
+{% endif %}
+{% if 'primary' in group_names %}
+{% for instance in instances %}
+    - consul@{{ instance.name }}.service
+    - nomad@{{ instance.name }}.service
+{% endfor %}
+{% endif %}

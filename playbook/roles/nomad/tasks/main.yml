@@ -1,0 +1,39 @@
+---
+- name: "Add group 'nomad'"
+  ansible.builtin.group:
+    name: nomad
+    state: present
+
+- name: "Add user 'nomad'"
+  ansible.builtin.user:
+    name: nomad
+    group: nomad
+    home: /opt/nomad
+    create_home: true
+    system: true
+    shell: /bin/false
+    state: present
+
+- name: "Create Nomad configuration directory"
+  ansible.builtin.file:
+    path: /etc/nomad.d/
+    owner: nomad
+    group: nomad
+    state: directory
+
+- name: "Deploy Nomad systemd service"
+  ansible.builtin.template:
+    src: nomad.service
+    dest: /etc/systemd/system/nomad.service
+  notify: Reload systemd
+
+- include_tasks: server.yml
+  when: is_server
+
+- ansible.builtin.meta: flush_handlers
+
+- name: "Enable and start Nomad"
+  ansible.builtin.systemd:
+    name: nomad.service
+    enabled: true
+    state: started

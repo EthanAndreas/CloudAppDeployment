@@ -1,0 +1,225 @@
+---
+- name: "Set authorized key taken from file"
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    state: present
+    key: "{{ lookup('file', 'instructions/per-host/' + inventory_hostname + '/id_ecdsa.pub') }}"
+
+- name: "Add additional authorized keys"
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    state: present
+    key: "{{ item }}"
+  loop: "{{ additional_authorized_keys }}"
+
+- name: "Create cache directory"
+  ansible.builtin.file:
+    path: "{{ cache_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: "Remove stock private key"
+  ansible.builtin.file:
+    path: '/home/{{ ansible_user }}/private.pem'
+    state: absent
+
+- name: "Remove stock authorized key"
+  ansible.posix.authorized_key:
+    user: '{{ ansible_user }}'
+    state: absent
+    key: "{{ key_to_remove }}"
+
+- name: "Remove old Docker, nomad and consul versions"
+  ansible.builtin.apt:
+    state: absent
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+      - nomad
+      - consul
+
+- name: "Disable fwupd-refresh.service"
+  ansible.builtin.systemd:
+    name: fwupd-refresh.service
+    state: stopped
+
+- name: "Disable fwupd-refresh.timer"
+  ansible.builtin.systemd:
+    name: fwupd-refresh.timer
+    enabled: no
+    state: stopped
+
+- name: Upgrade the OS (apt-get dist-upgrade)
+  apt:
+    update_cache: true
+    upgrade: dist
+
+- name: "Install some packages"
+  ansible.builtin.apt:
+    state: present
+    name:
+      - unzip
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+
+- name: "Add Cloudflare's official GPG key to apt"
+  ansible.builtin.apt_key:
+    id: FBA8C0EE63617C5EED695C43254B391D8CACCBF8
+    url: https://pkg.cloudflare.com/cloudflare-main.gpg
+    keyring: /usr/share/keyrings/cloudflare-main.gpg
+    state: present
+
+- name: "Add Cloudflare's repository to APT sources list"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ architecture_map[ansible_architecture] }} signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared {{ ansible_distribution_release }} main"
+    state: present
+
+- name: "Add Docker's official GPG key to apt"
+  ansible.builtin.apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+    state: present
+
+- name: "Add Docker's repository to APT sources list"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ architecture_map[ansible_architecture] }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: "Add RabbitMQ's official GPG key to apt"
+  ansible.builtin.apt_key:
+    id: 0A9AF2115F4687BD29803A206B73A36E6026DFCA
+    url: https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA
+    keyring: /usr/share/keyrings/rabbitmq-team.gpg
+    state: present
+
+- name: "Add modern Erlang GPG key to apt"
+  ansible.builtin.apt_key:
+    id: A16A42516F6A691BC1FF5621E495BB49CC4BBE5B
+    url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+    keyring: /usr/share/keyrings/rabbitmq-erlang.gpg
+    state: present
+
+- name: "Add RabbitMQ server GPG key to apt"
+  ansible.builtin.apt_key:
+    id: C072C9604725BAA218E1F2479F4587F226208342
+    url: https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+    keyring: /usr/share/keyrings/rabbitmq-server.gpg
+    state: present
+
+- name: "Add modern Erlang repository to APT sources list"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ architecture_map[ansible_architecture] }} signed-by=/usr/share/keyrings/rabbitmq-erlang.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+
+- name: "Add RabbitMQ repository to APT sources list"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ architecture_map[ansible_architecture] }} signed-by=/usr/share/keyrings/rabbitmq-server.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+
+- name: "Install Docker engine and cloudflared"
+  ansible.builtin.apt:
+    state: present
+    update_cache: yes
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - cloudflared
+
+- name: "Download compose-switch to cache directory"
+  ansible.builtin.get_url:
+    url: "https://github.com/docker/compose-switch/releases/download/v{{ compose_switch_version }}/docker-compose-{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}"
+    dest: "{{ cache_dir }}/compose-switch_{{ compose_switch_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+
+- name: "Download Consul to cache directory"
+  ansible.builtin.get_url:
+    url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+    dest: "{{ cache_dir }}/consul_{{ consul_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+
+- name: "Download Nomad to cache directory"
+  ansible.builtin.get_url:
+    url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+    dest: "{{ cache_dir }}/nomad_{{ nomad_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+
+- name: "Download minio to cache directory"
+  ansible.builtin.get_url:
+    url: https://dl.min.io/server/minio/release/{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}/archive/minio.RELEASE.{{ minio_version }}
+    checksum: sha256:https://dl.min.io/server/minio/release/{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}/archive/minio.RELEASE.{{ minio_version }}.sha256sum
+    dest: "{{ cache_dir }}/minio_{{ minio_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+
+- name: "Download mc to cache directory"
+  ansible.builtin.get_url:
+    url: https://dl.min.io/client/mc/release/{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}/archive/mc.RELEASE.{{ mc_version }}
+    checksum: sha256:https://dl.min.io/client/mc/release/{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}/archive/mc.RELEASE.{{ mc_version }}.sha256sum
+    dest: "{{ cache_dir }}/mc_{{ mc_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+
+- name: "Download the CNI plugins to cache directory"
+  ansible.builtin.get_url:
+    url: https://github.com/containernetworking/plugins/releases/download/v{{ cni_plugins_version }}/cni-plugins-{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}-v{{ cni_plugins_version }}.tgz
+    checksum: sha256:https://github.com/containernetworking/plugins/releases/download/v{{ cni_plugins_version }}/cni-plugins-{{ ansible_system | lower }}-{{ architecture_map[ansible_architecture] }}-v{{ cni_plugins_version }}.tgz.sha256
+    dest: "{{ cache_dir }}/cni-plugins_{{ cni_plugins_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.tgz"
+
+- name: "Install compose-switch from cache"
+  ansible.builtin.copy:
+    src: "{{ cache_dir }}/compose-switch_{{ compose_switch_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+    dest: /usr/local/bin/docker-compose
+    mode: "0755"
+    remote_src: yes
+
+- name: "Install Consul from cache"
+  ansible.builtin.unarchive:
+    src: "{{ cache_dir }}/consul_{{ consul_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: "Allow Consul to bind privileged port"
+  community.general.capabilities:
+    path: /usr/local/bin/consul
+    capability: cap_net_bind_service+ep
+    state: present
+
+- name: "Install Nomad from cache"
+  ansible.builtin.unarchive:
+    src: "{{ cache_dir }}/nomad_{{ nomad_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.zip"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: "Install minio from cache"
+  ansible.builtin.copy:
+    src: "{{ cache_dir }}/minio_{{ minio_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+    dest: /usr/local/bin/minio
+    mode: "0755"
+    remote_src: yes
+
+- name: "Install mc from cache"
+  ansible.builtin.copy:
+    src: "{{ cache_dir }}/mc_{{ mc_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}"
+    dest: /usr/local/bin/mc
+    mode: "0755"
+    remote_src: yes
+
+- name: "Create CNI plugins directory"
+  ansible.builtin.file:
+    path: "/opt/cni/bin"
+    state: directory
+    recurse: yes
+
+- name: "Install the CNI plugins from cache"
+  ansible.builtin.unarchive:
+    src: "{{ cache_dir }}/cni-plugins_{{ cni_plugins_version }}_{{ ansible_system | lower }}_{{ architecture_map[ansible_architecture] }}.tgz"
+    dest: "/opt/cni/bin"
+    remote_src: yes
+
+- name: "Remove old apt packages"
+  ansible.builtin.apt:
+    autoremove: yes
+    purge: yes

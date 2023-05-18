@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+[Match]
+Name={{ vxlan_interface_name }}
+
+[Network]
+Address={{ vxlan_interface_address }}
+{% for address in vxlan_extra_addresses -%}
+Address={{ address }}
+{% endfor -%}
+
+# Send LLDP packets on the interface, so that we can monitor that we're 
+# connected to the other hosts. Run `networkctl lldp` to see the neighbors.
+LLDP=true
+EmitLLDP=true
+Domains=internal.100do.se
+
+# This makes it so that DNS queries to the `consul.` domain are forwarded through this interface, to the Consul agent.
+# The Consul agents needs to have the DNS service listening on that interface.
+Domains= ~consul.
+DNS={{ vxlan_interface_address | ansible.utils.ipaddr('address') }}

@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "image_api"
+description = ""
+version = "0.1.0"
+authors = ["Quentin Gliech <gliech@unistra.fr>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Flask = "^2.2.3"
+boto3 = "^1.26.107"
+Flask-Cors = "^3.0.10"
+Pillow = "^9.5.0"
+celery = {extras = ["amqp", "redis"], version = "^5.2.7"}
+
+[tool.poetry.dev-dependencies]
+black = "^23.3.0"
+mypy = "^1.1.1"
+boto3-stubs = {extras = ["essential"], version = "^1.26.107"}
+celery-types = "^0.15.0"
+
+[tool.poetry.scripts]
+app = "image_api.web:dev"
+
+[build-system]
+requires = ["poetry-core>=1.5.2"]
+build-backend = "poetry.core.masonry.api"

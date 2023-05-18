@@ -1,0 +1,7 @@
+---
+- name: "Deploy the configuration"
+  ansible.builtin.template:
+    src: consul.hcl
+    dest: /etc/consul.d/consul.hcl
+  notify: Restart Consul
+

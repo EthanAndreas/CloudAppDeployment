@@ -1,0 +1,26 @@
+---
+- name: "Create the configuration directory"
+  ansible.builtin.file:
+    path: /etc/consul/{{ instance_name }}
+    owner: consul
+    group: consul
+    state: directory
+
+- name: "Create the data directory"
+  ansible.builtin.file:
+    path: /opt/consul/{{ instance_name }}
+    owner: consul
+    group: consul
+    state: directory
+
+- name: "Deploy the instance configuration"
+  ansible.builtin.template:
+    src: consul.hcl
+    dest: /etc/consul/{{ instance_name }}/consul.hcl
+  notify: Restart Consul instance
+
+- name: "Enable and start instance"
+  ansible.builtin.systemd:
+    name: consul@{{ instance_name }}.service
+    enabled: true
+    state: started

@@ -1,0 +1,11 @@
+{
+  "features": {
+    "buildkit": true
+  },
+  "default-address-pools": [
+    {
+      "base": "{{ docker_bridge_range }}",
+      "size": 24
+    }
+  ]
+}

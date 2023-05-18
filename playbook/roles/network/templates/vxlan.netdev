@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+[NetDev]
+Name={{ vxlan_interface_name }}
+Kind=vxlan
+
+[VXLAN]
+VNI={{ vxlan_vni }}
+Local={{ ansible_host }}
+Group={{ vxlan_multicast_group }}

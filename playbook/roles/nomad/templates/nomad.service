@@ -1,0 +1,53 @@
+[Unit]
+Description=Nomad
+Documentation=https://www.nomadproject.io/docs/
+
+# Start Nomad only if the configuration file exists
+ConditionFileNotEmpty=/etc/nomad.d/nomad.hcl
+
+# Start Nomad after the network is online
+Wants=network-online.target
+After=network-online.target
+
+# Start Nomad after Consul
+Wants=consul.service
+After=consul.service
+
+{% if is_server %}
+# Comment out if this node is a client
+#Wants=docker.service
+#After=docker.service
+{% else %}
+# Comment if this node is not a client
+Wants=docker.service
+After=docker.service
+{% endif %}
+
+[Service]
+# Run as root when running a client
+{% if is_server %}
+User=nomad
+Group=nomad
+#User=root
+#Group=root
+{% else %}
+#User=nomad
+#Group=nomad
+User=root
+Group=root
+{% endif %}
+
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/local/bin/nomad agent -config /etc/nomad.d
+KillMode=process
+KillSignal=SIGINT
+LimitNOFILE=65536
+LimitNPROC=infinity
+Restart=on-failure
+RestartSec=2
+
+TasksMax=infinity
+OOMScoreAdjust=-1000
+
+[Install]
+WantedBy=multi-user.target

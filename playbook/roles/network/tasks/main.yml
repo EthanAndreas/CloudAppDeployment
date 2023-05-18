@@ -1,0 +1,33 @@
+---
+- name: "Set the right hostname"
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}.internal.100do.se"
+    use: "systemd"
+
+- name: "Setup /etc/hosts"
+  ansible.builtin.template:
+    src: "hosts"
+    dest: /etc/hosts
+
+- name: "Setup the VXLAN interface"
+  ansible.builtin.template:
+    src: "vxlan.netdev"
+    dest: /etc/systemd/network/vxlan.netdev
+  notify: Restart systemd-networkd
+
+- name: "Setup the VXLAN network"
+  ansible.builtin.template:
+    src: "vxlan.network"
+    dest: /etc/systemd/network/vxlan.network
+  notify: Restart systemd-networkd
+
+- name: "Create the drop-in configuration folder for the public interface"
+  ansible.builtin.file:
+    path: /etc/systemd/network/{{ vxlan_local_interface_config }}.d
+    state: directory
+
+- name: "Attach the VXLAN to the public interface"
+  ansible.builtin.template:
+    src: "attach-vxlan.conf"
+    dest: /etc/systemd/network/{{ vxlan_local_interface_config }}.d/attach-vxlan.conf
+  notify: Restart systemd-networkd

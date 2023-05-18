@@ -1,0 +1,4 @@
+{% for item in instance_groups|sort(attribute='name') %}
+{{ item.name }}{% for mem in item.members|default([]) %}	{{ mem }}{% endfor %}
+
+{% endfor %}

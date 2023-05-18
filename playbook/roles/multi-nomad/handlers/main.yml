@@ -1,0 +1,6 @@
+---
+- name: Restart Nomad instance
+  ansible.builtin.systemd:
+    name: nomad@{{ item.name }}.service
+    state: restarted
+  loop: "{{ instances }}"

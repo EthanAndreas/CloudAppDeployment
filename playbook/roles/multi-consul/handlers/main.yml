@@ -1,0 +1,11 @@
+---
+- name: Restart datadog-agent
+  ansible.builtin.systemd:
+    name: datadog-agent.service
+    state: restarted
+
+- name: Restart Consul instance
+  ansible.builtin.systemd:
+    name: consul@{{ item.name }}.service
+    state: restarted
+  loop: "{{ instances }}"

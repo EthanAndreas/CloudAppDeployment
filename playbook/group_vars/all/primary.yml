@@ -1,0 +1,67 @@
+---
+instance_groups:
+  - name: aristide-briand
+    main_host: bohrie
+    consul_address: 172.16.2.0/16
+    floating_address: 172.16.3.0/16
+    members: []
+
+  - name: emile-mathis
+    main_host: citadelle
+    consul_address: 172.16.2.1/16
+    floating_address: 172.16.3.1/16
+    members: []
+
+  - name: etoile-bourse
+    main_host: dante
+    consul_address: 172.16.2.2/16
+    floating_address: 172.16.3.2/16
+    members: ["saint-christophe", "universite"]
+
+  - name: faubourg-national
+    main_host: esplanade
+    consul_address: 172.16.2.3/16
+    floating_address: 172.16.3.3/16
+    members: ["colonne", "robertsau"]
+
+  - name: gare-centrale
+    main_host: hautepierre
+    consul_address: 172.16.2.4/16
+    floating_address: 172.16.3.4/16
+    members: []
+
+  - name: homme-de-fer
+    main_host: krimmeri
+    consul_address: 172.16.2.5/16
+    floating_address: 172.16.3.5/16
+    members: ["baggersee", "elmerforst"]
+
+  - name: jean-jaures
+    main_host: langstross
+    consul_address: 172.16.2.6/16
+    floating_address: 172.16.3.6/16
+    members: []
+
+  - name: les-halles
+    main_host: poteries
+    consul_address: 172.16.2.7/16
+    floating_address: 172.16.3.7/16
+    members: ["hohwart", "saint-florent"]
+
+  - name: montagne-verte
+    main_host: rotonde
+    consul_address: 172.16.2.8/16
+    floating_address: 172.16.3.8/16
+    members: []
+
+  - name: pont-phario
+    main_host: schluthfeld
+    consul_address: 172.16.2.9/16
+    floating_address: 172.16.3.9/16
+    members: ["broglie", "elsau"]
+
+  - name: porte-blanche
+    main_host: winston-churchill
+    consul_address: 172.16.2.10/16
+    floating_address: 172.16.3.10/16
+    members: ["boecklin", "landsberg"]

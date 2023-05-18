@@ -1,0 +1,4 @@
+---
+- hosts: student
+  roles:
+    - role: reset

@@ -1,0 +1,8 @@
+{% for item in groups['all'] -%}
+{{ item }}.internal	1	IN	A	{{ hostvars[item].vxlan_interface_address | ansible.netcommon.ipaddr('address') }}
+{% endfor %}
+
+{% for item in instance_groups -%}
+{{ item.name }}.internal	1	IN	A	{{ item.consul_address | ansible.netcommon.ipaddr('address') }}
+{% endfor %}
+

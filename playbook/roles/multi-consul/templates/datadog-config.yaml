@@ -1,0 +1,7 @@
+init_config:
+
+instances:
+{% for instance in instances %}
+  - url: http://{{ instance.consul_address | ansible.netcommon.ipaddr('address') }}:8500
+    use_prometheus_endpoint: true
+{% endfor %}

@@ -1,0 +1,30 @@
+[Unit]
+Description="HashiCorp Consul - A service mesh solution"
+Documentation=https://www.consul.io/
+
+# Start Consul after the network is online
+Requires=network-online.target
+After=network-online.target
+
+# Start Consul only if the configuration file exists
+ConditionFileNotEmpty=/etc/consul.d/consul.hcl
+
+[Service]
+EnvironmentFile=-/etc/consul.d/consul.env
+# Run as the consul user and group
+User=consul
+Group=consul
+# Validate the configuration file before starting
+ExecStartPre=/usr/local/bin/consul validate /etc/consul.d/
+# This is how the service is started
+ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d/
+# Reload the service by sending a SIGHUP
+ExecReload=/bin/kill --signal HUP $MAINPID
+# Stop the service by sending a SIGTERM
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

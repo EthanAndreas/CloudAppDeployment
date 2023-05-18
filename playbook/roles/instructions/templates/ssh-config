@@ -1,0 +1,11 @@
+Host bastion-cloud
+  Hostname {{ bastion_host }}
+  User student
+
+{% for item in groups['all'] -%}
+Host {{ item }}
+  Hostname {{ hostvars[item].ansible_host }}
+  User ubuntu
+  ProxyJump bastion-cloud
+
+{% endfor %}

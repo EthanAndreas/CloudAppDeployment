@@ -1,0 +1,6 @@
+vxlan_interface_name: vxlan100
+vxlan_vni: 100
+vxlan_local_interface: ens3
+vxlan_local_interface_config: 10-netplan-ens3.network
+vxlan_interface_address: 172.16.1.{{ host_index }}/16
+vxlan_multicast_group: 224.42.42.42

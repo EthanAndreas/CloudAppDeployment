@@ -1,0 +1,8 @@
+---
+- name: "Deploy the Nomad configuration"
+  ansible.builtin.template:
+    src: nomad.hcl
+    dest: /etc/nomad.d/nomad.hcl
+  notify: Restart Nomad
+
+

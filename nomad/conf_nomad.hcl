@@ -18,7 +18,7 @@ job "cloud" {
         task "frontend" {
             driver = "docker"
             config {
-                // image = <REGISTRY>
+                image = "ghcr.io/loskeeper/frontend:1.0.0"
                 ports = ["fontend"]
                 args = ["-p","3000:3000"]
             }
@@ -32,7 +32,7 @@ job "cloud" {
         task "worker" {
             driver = "docker"
             config {
-                // image = <REGISTRY>
+                image = "ghcr.io/loskeeper/worker:1.0.0"
                 ports = ["worker"]
                 args  = ["--port", "8080"]
             }

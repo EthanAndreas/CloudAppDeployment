@@ -1,0 +1,37 @@
+---
+- name: "Add group 'consul'"
+  ansible.builtin.group:
+    name: consul
+    state: present
+
+- name: "Add user 'consul'"
+  ansible.builtin.user:
+    name: consul
+    group: consul
+    home: /opt/consul
+    create_home: true
+    system: true
+    shell: /bin/false
+    state: present
+
+- name: "Create Consul configuration directory"
+  ansible.builtin.file:
+    path: /etc/consul.d/
+    owner: consul
+    group: consul
+    state: directory
+
+- name: "Deploy Consul systemd service"
+  ansible.builtin.copy:
+    src: consul.service
+    dest: /etc/systemd/system/consul.service
+  notify: Reload systemd
+
+- include_tasks: server.yml
+  when: is_server
+
+- name: "Enable and start Consul"
+  ansible.builtin.systemd:
+    name: consul.service
+    enabled: true
+    state: started

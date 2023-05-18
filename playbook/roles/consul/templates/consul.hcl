@@ -11,7 +11,7 @@ node_name = "{{ inventory_hostname }}"
 client_addr = "0.0.0.0"
 
 # Advertise the address of the VXLAN interface
-advertise_addr = "{{ vxlan_interface_address | ansible.utils.ipaddr('address') }}"
+advertise_addr = "{{ hostvars[inventory_hostname]['ansible_' + vxlan_interface]['ipv4']['address'] }}"
 
 # Enable the web interface
 ui_config {
@@ -28,7 +28,7 @@ bootstrap_expect = 1
 addresses {
   # Bind the DNS service to the VXLAN interface
   # We can't bind on 0.0.0.0, because systemd-resolved already listens on 127.0.0.53
-  dns = "{{ vxlan_interface_address | ansible.utils.ipaddr('address')}}"
+  dns = "{{ hostvars[inventory_hostname]['ansible_' + vxlan_interface]['ipv4']['address'] }}"
 }
 
 ports {

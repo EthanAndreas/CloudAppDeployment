@@ -1,4 +1,0 @@
-{{ ansible_managed | comment }}
-
-tunnel: {{ cloudflared_tunnel_uuid }}
-credentials-file: /etc/cloudflared/{{ cloudflared_tunnel_uuid }}.json

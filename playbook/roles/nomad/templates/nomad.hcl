@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 
 # Group name
-datacenter = "{{ main_instance_group.name }}"
+datacenter = "hautepierre"
 
 # Save the persistent data to /opt/nomad
 data_dir = "/opt/nomad"
@@ -11,9 +11,9 @@ bind_addr = "0.0.0.0"
 
 advertise {
   # We explicitely advertise the IP on the vxlan interface
-  http = "{{ vxlan_interface_address | ansible.utils.ipaddr('address') }}"
-  rpc = "{{ vxlan_interface_address | ansible.utils.ipaddr('address') }}"
-  serf = "{{ vxlan_interface_address | ansible.utils.ipaddr('address') }}"
+  http = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
+  rpc = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
+  serf = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
 }
 
 # This node is a server, and expects to be the only server in the cluster

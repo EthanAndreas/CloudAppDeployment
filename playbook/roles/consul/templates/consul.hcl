@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 
 # Group name
-datacenter = "{{ main_instance_group.name }}"
+datacenter = "hautepierre"
 
 # Save the persistent data to /opt/consul. This directory is owned by the `consul` user.
 data_dir = "/opt/consul"
@@ -11,7 +11,7 @@ node_name = "{{ inventory_hostname }}"
 client_addr = "0.0.0.0"
 
 # Advertise the address of the VXLAN interface
-advertise_addr = "{{ hostvars[inventory_hostname]['ansible_' + vxlan_interface]['ipv4']['address'] }}"
+advertise_addr = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
 
 # Enable the web interface
 ui_config {
@@ -28,7 +28,7 @@ bootstrap_expect = 1
 addresses {
   # Bind the DNS service to the VXLAN interface
   # We can't bind on 0.0.0.0, because systemd-resolved already listens on 127.0.0.53
-  dns = "{{ hostvars[inventory_hostname]['ansible_' + vxlan_interface]['ipv4']['address'] }}"
+  dns = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
 }
 
 ports {
@@ -37,4 +37,4 @@ ports {
 }
 
 # List of upstream DNS servers to forward queries to
-recursors = [{% for r in recursors %}"{{ r }}"{{ ", " if not loop.last else "" }}{% endfor %}]
+recursors = ["1.1.1.1", "1.0.0.1"]

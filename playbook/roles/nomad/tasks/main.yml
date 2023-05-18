@@ -28,7 +28,6 @@
   notify: Reload systemd
 
 - include_tasks: server.yml
-  when: is_server
 
 - ansible.builtin.meta: flush_handlers
 

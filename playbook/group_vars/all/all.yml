@@ -1,1 +1,1 @@
-main_instance_group: "{{ instance_groups | selectattr('main_host', 'equalto', inventory_hostname) | first }}"
+main_instance_group: "hautepierre"

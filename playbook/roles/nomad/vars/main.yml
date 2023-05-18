@@ -1,2 +1,0 @@
----
-is_server: "{{ main_instance_group is defined }}"

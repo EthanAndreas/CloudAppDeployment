@@ -9,8 +9,6 @@ ENV AWS_SECRET_ACCESS_KEY=Ku71sUSsnEKcfB3lw7uA
 COPY . .
 
 RUN pip install poetry
-RUN poetry --version
 RUN poetry install
-RUN poetry run app
 
-CMD ["poetry","run","celery","worker","--app","image_api.worker.app"]
+CMD ["poetry", "run", "app"]

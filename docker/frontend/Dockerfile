@@ -1,6 +1,6 @@
 FROM node:latest
 WORKDIR /frontend
-COPY ../../api/web .
+COPY ~/CloudAppDeployment/api/web .
 EXPOSE 3000
 CMD ["npm","install"]
 CMD ["npm","run","build"]

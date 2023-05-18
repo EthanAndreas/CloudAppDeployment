@@ -6,38 +6,11 @@ worker : redimensionne les images
 
 rabbitMQ : file de message entre worker et backend 
 
-ip flottante : keepalived
-sudo apt-get install keepalived
+dockerfile 
+pour web :
+ssh -l 3000:localhost:3000 <name>
+cd web
+docker build -t <name> . 
+docker run -p 3000:3000 <name>
 
-wget https://www.keepalived.org/software/keepalived-2.0.20.tar.gz
-tar -xf keepalived-2.0.20.tar.gz
-rm -rf keepalived-2.0.20.tar.gz
-cd keepalived-2.0.20
-./configure
-make
-make install
-
-sudo nano /etc/keepalived/keepalived.conf
-vrrp_script check_haproxy {
-    script "/etc/keepalived/check_haproxy.sh"
-    interval 2
-    weight -2
-}
-
-vrrp_instance VI_1 {
-    state BACKUP
-    interface eth0
-    virtual_router_id 51
-    priority 100
-    advert_int 1
-    authentication {
-        auth_type PASS
-        auth_pass your_password
-    }
-    virtual_ipaddress {
-        172.16.3.4/16
-    }
-    track_script {
-        check_haproxy
-    }
-}
+pour worker :

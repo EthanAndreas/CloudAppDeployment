@@ -26,7 +26,7 @@ bootstrap_expect = 1
 addresses {
   # Bind the DNS service to the VXLAN interface
   # We can't bind on 0.0.0.0, because systemd-resolved already listens on 127.0.0.53
-  dns = "172.16.1.19"
+  dns = "172.16.1.19 172.16.3.4"
 }
 
 ports {

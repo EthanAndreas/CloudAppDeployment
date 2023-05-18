@@ -1,18 +1,5 @@
 ---
-- hosts: localhost
-  tags: ["instructions"]
-  roles:
-    - role: instructions
-
-- hosts: all
-  tags: ["base"]
-  roles:
-    - role: base
-    - role: docker
-    - role: network
-
-- hosts: student
-  tags: ["student"]
+- hosts: small
   handlers:
     - name: Reload systemd
       ansible.builtin.systemd:
@@ -20,30 +7,4 @@
   roles:
     - role: consul
     - role: nomad
-
-- hosts: gateway
-  handlers:
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-  tags: ["tunnel"]
-  roles:
-    - role: tunnel
-
-- hosts: storage
-  tags: ["minio"]
-  handlers:
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-  roles:
-    - role: minio
-
-- hosts: queue
-  tags: ["rabbitmq"]
-  handlers:
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-  roles:
-    - role: rabbitmq
+    - role: keepalived

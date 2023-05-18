@@ -1,6 +1,0 @@
----
-- name: "Deploy systemd datadog config"
-  ansible.builtin.template:
-    src: systemd.yaml
-    dest: /etc/datadog-agent/conf.d/systemd.d/conf.yaml
-  notify: Restart datadog-agent

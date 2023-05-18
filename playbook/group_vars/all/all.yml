@@ -1,10 +1,1 @@
-bastion_host: "185.155.93.67"
-cache_dir: "/var/cache/ansible"
-
-docker_bridge_range: "10.{{ host_index + 10 }}.0.0/16"
-additional_authorized_keys:
-  - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP84fwAsjyX4ziJvQ4HZesaVRbvhQvCEYPfKBNBSCWHsnnDQn4o85HAdKceVwcNN/wlfm+AuH9pNpoJgpEEfpy4= sandhose@Quentins-MacBook-Pro.local"
-
-key_to_remove: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9uAezX4iPv8U8KcYQmiSw362RqD3l2Tn0eBAiXe3J+h72bUKf4LcCxup+NCCvjo+0u6CLFD46KskDV1BmEdSN/4E+82OAlHTitfTaRp6egTGn+FTkEru4rCVWRL+b0a+koLzw9lrEHYSvdWk1e0bhMyOYH3pFc1wwRZWB8nCiS2lIpYRZ8dMPNCn1PZnBZV899IxrUHWBZuM1hYjX76lS55ZOwHkIX3sToxrr0+PGkqQQrGgIeJlgn+OUmqwjG5/5XKs48IHYSOKVFpuCferG0KfM/fq7AtJ9poc68gEIjU0hXSeY5YSPRnqaAvYQFZ3Kj+GmJGhTwwjuGr0NxSbv Generated-by-Nova"
-
 main_instance_group: "{{ instance_groups | selectattr('main_host', 'equalto', inventory_hostname) | first }}"

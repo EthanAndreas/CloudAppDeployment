@@ -8,7 +8,7 @@ ENV AWS_SECRET_ACCESS_KEY=Ku71sUSsnEKcfB3lw7uA
 
 COPY . .
 
-RUN pip install poetry
+RUN pip install .
 RUN poetry install
 
 CMD ["poetry", "run", "app"]

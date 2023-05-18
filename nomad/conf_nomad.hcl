@@ -2,7 +2,7 @@ job "cloud" {
     datacenters = ["gare-centrale"]
 
     group "clouds"{
-        count = 2
+        count = 1
 
         network {
             port "fontend"{

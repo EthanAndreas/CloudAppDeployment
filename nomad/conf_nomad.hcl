@@ -23,10 +23,6 @@ job "cloud" {
                 args = ["--port","3000"]
             }
 
-            resources {
-                cpu    = 100
-                memory = 128
-            }
         }
 
         task "worker" {
@@ -37,10 +33,6 @@ job "cloud" {
                 args  = ["--port", "8080"]
             }
 
-            resources {
-                cpu    = 100
-                memory = 128
-            }
         }
     }
 }

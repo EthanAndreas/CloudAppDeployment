@@ -2,7 +2,7 @@
 
 [![version](https://img.shields.io/badge/version-0.0.0-blue.svg)](https://github.com/EthanAndreas/CloudAppDeployment)
 [![author](https://img.shields.io/badge/author-EthanAndreas-blue)](https://github.com/EthanAndreas)
-[![author](https://img.shields.io/badge/author-Cottelle-blue)](https://github.com/LosKeeper)
+[![author](https://img.shields.io/badge/author-LosKeeper-blue)](https://github.com/LosKeeper)
 
 ## Table of Contents
 

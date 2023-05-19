@@ -60,7 +60,7 @@ job "cloud" {
         task "haproxy" {
             driver = "docker"
             config {
-                image = "docker.io/library/haproxy"
+                image = "docker.io/library/haproxy:2.7"
                 ports = ["haproxy"]
             }
 

@@ -1,7 +1,7 @@
 job "cloud" {
     datacenters = ["gare-centrale"]
 
-    group "clouds"{
+    group "frontends"{
         count = 1
 
         network {
@@ -10,10 +10,6 @@ job "cloud" {
                 to = 3000
             }
 
-            port "worker"{
-                static = 8080
-                to = 8080
-            }
         }
         task "frontend" {
             driver = "docker"
@@ -28,12 +24,44 @@ job "cloud" {
             }
 
         }
+    }
+
+    group "workers"{
+        count = 1
+
+        network {
+            port "worker"{
+                static = 8080
+                to = 8080
+            }
+        }
 
         task "worker" {
             driver = "docker"
             config {
                 image = "ghcr.io/loskeeper/worker:1.0.0"
                 ports = ["worker"]
+            }
+
+        }
+
+    }
+
+    group "haproxys"{
+        count = 3
+
+        network {
+            port "haproxy"{
+                static = 80
+                to = 80
+            }
+        }
+
+        task "haproxy" {
+            driver = "docker"
+            config {
+                image = "docker.io/library/haproxy"
+                ports = ["haproxy"]
             }
 
         }

@@ -62,6 +62,7 @@ job "cloud" {
             config {
                 image = "docker.io/library/haproxy:2.7"
                 ports = ["haproxy"]
+                volumes = ["local/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg",]
             }
 
             // Configuration du haproxy

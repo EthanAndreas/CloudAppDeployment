@@ -34,7 +34,7 @@
     name: consul.service
     enabled: true
     state: started
-    
+
 - name: Restart Consul
   ansible.builtin.systemd:
     name: consul.service
@@ -42,4 +42,4 @@
 
 - name: Exécuter la commande "consul join gare-centrale"
   command: consul join gare-centrale
-  become: yes
+  become: true

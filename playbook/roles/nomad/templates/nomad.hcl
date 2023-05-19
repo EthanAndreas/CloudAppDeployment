@@ -25,7 +25,7 @@ server {
 # This node is not running jobs
 client {
   enabled = true
-  network_interface = "{{ hostvars[inventory_hostname]['vxlan_interface_address'] }}"
+  network_interface = "vxlan100"
 }
 
 # Connect to the local Consul agent

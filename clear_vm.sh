@@ -12,3 +12,5 @@ cd /opt/nomad
 sudo rm -rf *
 cd /opt/consul
 sudo rm -rf *
+
+fuser -k 3000/tcp

@@ -3,6 +3,5 @@
   ansible.builtin.template:
     src: nomad.hcl
     dest: /etc/nomad.d/nomad.hcl
+    become: true
   notify: Restart Nomad
-
-

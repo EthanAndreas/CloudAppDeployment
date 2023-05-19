@@ -51,8 +51,8 @@ job "cloud" {
 
     // Create a new group for the haproxy
     group "haproxys"{
-        // Use 3 haproxy instances for all the VMs
-        count = 3
+        // Use 1 haproxy instances for all the VMs
+        count = 1
 
         network {
             port "haproxy"{

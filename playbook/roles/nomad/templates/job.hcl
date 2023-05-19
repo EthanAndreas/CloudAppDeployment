@@ -91,7 +91,7 @@ job "cloud" {
                     mode http
                     server-template frontend _cloud._tcp.service.consul resolvers consul init-addr none
                 EOF
-                destination = "/usr/local/etc/haproxy/haproxy.cfg"
+                destination = "local/haproxy.cfg"
             }
 
         }

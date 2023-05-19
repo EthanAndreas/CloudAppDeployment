@@ -70,3 +70,5 @@
 - name: "Submit Nomad job"
   command: nomad run /etc/nomad.d/jobs/job.hcl
   become: true
+  when: inventory_hostname == "hautepierre"
+  timeout: 60

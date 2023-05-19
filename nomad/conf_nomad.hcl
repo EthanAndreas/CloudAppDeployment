@@ -1,6 +1,8 @@
+// Create a new job with the name "cloud" corresponding to the datacenter "gare-centrale" for the full project
 job "cloud" {
     datacenters = ["gare-centrale"]
 
+    // Create a new group for the frontend
     group "frontends"{
         count = 1
 
@@ -14,7 +16,7 @@ job "cloud" {
         task "frontend" {
             driver = "docker"
             config {
-                image = "ghcr.io/loskeeper/frontend:1.0.0"
+                image = "ghcr.io/loskeeper/frontend:1.0.0" // Use the image published on the GitHub Container Registry
                 ports = ["frontend"]
                 port_map {
                     frontend = {
@@ -26,6 +28,7 @@ job "cloud" {
         }
     }
 
+    // Create a new group for the backend
     group "workers"{
         count = 1
 
@@ -35,11 +38,10 @@ job "cloud" {
                 to = 8080
             }
         }
-
         task "worker" {
             driver = "docker"
             config {
-                image = "ghcr.io/loskeeper/worker:1.0.0"
+                image = "ghcr.io/loskeeper/worker:1.0.0" // Use the image published on the GitHub Container Registry
                 ports = ["worker"]
             }
 
@@ -47,7 +49,9 @@ job "cloud" {
 
     }
 
+    // Create a new group for the haproxy
     group "haproxys"{
+        // Use 3 haproxy instances for all the VMs
         count = 3
 
         network {
@@ -57,6 +61,7 @@ job "cloud" {
             }
         }
 
+        // Use the haproxy image from the Docker Hub
         task "haproxy" {
             driver = "docker"
             config {

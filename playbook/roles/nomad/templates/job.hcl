@@ -89,7 +89,7 @@ job "cloud" {
                 backend web
                     balance roundrobin
                     mode http
-                    server-template frontend _frontend._tcp.service.consul resolvers consul init-addr none
+                    server-template frontends _frontend._tcp.service.consul resolvers consul init-addr none
                 EOF
                 destination = "haproxy.cfg"
             }

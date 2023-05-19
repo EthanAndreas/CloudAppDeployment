@@ -69,6 +69,11 @@ job "cloud" {
                 ports = ["haproxy"]
             }
 
+            // Use the haproxy configuration file
+            resources {
+                imports = ["../loadBalancer/haproxy.cfg"]
+            }
+
         }
     }
 }

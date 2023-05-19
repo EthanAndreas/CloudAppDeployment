@@ -1,4 +1,15 @@
-[all]
-laiterie ansible_host=laiterie ansible_user=ubuntu vxlan_interface_address=172.16.1.19 priority=244 ansible_become=yes 
-gallia ansible_host=gallia ansible_user=ubuntu vxlan_interface_address=172.16.1.13 priority=245 ansible_become=yes
-hautepierre ansible_host=hautepierre ansible_user=ubuntu vxlan_interface_address=172.16.1.15 priority=246 ansible_become=yes
+all:
+  vars:
+    ansible_user: ubuntu
+    ansible_become: yes
+
+  hosts:
+    laiterie:
+      vxlan_interface_address: 172.16.1.19
+      priority: 244
+    gallia:
+      vxlan_interface_address: 172.16.1.13
+      priority: 245
+    hautepierre:
+      vxlan_interface_address: 172.16.1.15
+      priority: 246

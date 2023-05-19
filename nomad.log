@@ -1,0 +1,9 @@
+Erreur pour hautepierre, laiterie et gallia fail aussi mais sans erreur dans le log.
+
+systemctl status nomad.service
+
+
+
+journalctl -xeu nomad.service
+
+

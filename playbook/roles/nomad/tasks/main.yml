@@ -42,3 +42,31 @@
   ansible.builtin.systemd:
     name: nomad.service
     state: restarted
+
+- name: "Wait for Nomad to start"
+  ansible.builtin.wait_for:
+    port: 4646
+    timeout: 10
+
+- name: "Join Nomad cluster"
+  command: nomad server join gare-centrale
+  become: true
+
+- name: "Create Nomad job directory"
+  ansible.builtin.file:
+    path: /etc/nomad.d/jobs/
+    owner: nomad
+    group: nomad
+    state: directory
+
+- name: "Copy job configuration file"
+  ansible.builtin.template:
+    src: job.hcl
+    dest: /etc/nomad.d/jobs/job.hcl
+    owner: nomad
+    group: nomad
+    mode: "0644"
+
+- name: "Submit Nomad job"
+  command: nomad run /etc/nomad.d/jobs/job.hcl
+  become: true

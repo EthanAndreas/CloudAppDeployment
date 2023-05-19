@@ -6,5 +6,10 @@
         daemon_reload: true
   roles:
     - role: consul
+      tags: consul
+    - role: docker
+      tags: docker
     - role: nomad
+      tags: nomad
     - role: keepalived
+      tags: keepalived 

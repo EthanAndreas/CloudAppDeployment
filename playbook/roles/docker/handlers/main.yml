@@ -1,0 +1,5 @@
+---
+- name: Reload Docker
+  ansible.builtin.systemd:
+    name: docker.service
+    state: reloaded

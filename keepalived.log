@@ -1,50 +1,48 @@
-Même erreur pour laiterie et hautepierre, et gallia fail aussi mais sans erreur dans le log.
+Gallia indique cette erreur et les deux autres fail mais n'indique rien dans les logs
 
 systemctl status keepalived.service 
 
-● consul.service - "HashiCorp Consul - A service mesh solution"
-     Loaded: loaded (/etc/systemd/system/consul.service; enabled; vendor preset: enabled)
-     Active: failed (Result: exit-code) since Fri 2023-05-19 14:18:45 UTC; 21min ago
-       Docs: https://www.consul.io/
-    Process: 466140 ExecStartPre=/usr/local/bin/consul validate /etc/consul.d/ (code=exited, status=0/SUCCESS)
-    Process: 466147 ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d/ (code=exited, status=1/FAILURE)
-   Main PID: 466147 (code=exited, status=1/FAILURE)
+● keepalived.service - Keepalived
+     Loaded: loaded (/etc/systemd/system/keepalived.service; enabled; vendor preset: enabled)
+     Active: failed (Result: exit-code) since Fri 2023-05-19 13:31:44 UTC; 2h 58min ago
+    Process: 448013 ExecStart=/usr/local/bin/keepalived agent -config /etc/keepalived (code=exited, status=203/EXEC)
+   Main PID: 448013 (code=exited, status=203/EXEC)
 
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.105Z [INFO]  agent: shutdown complete
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.105Z [INFO]  agent: Stopping server: p>
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.106Z [INFO]  agent: Stopping server: p>
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.106Z [INFO]  agent: Stopping server: a>
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.106Z [INFO]  agent: Waiting for endpoi>
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.106Z [INFO]  agent: Endpoints down
-May 19 14:18:45 laiterie.internal.100do.se consul[466147]: 2023-05-19T14:18:45.106Z [INFO]  agent: Exit code: code=1
-May 19 14:18:45 laiterie.internal.100do.se systemd[1]: consul.service: Main process exited, code=exited, status=1/FAI>
-May 19 14:18:45 laiterie.internal.100do.se systemd[1]: consul.service: Failed with result 'exit-code'.
-May 19 14:18:45 laiterie.internal.100do.se systemd[1]: Stopped "HashiCorp Consul - A service mesh solution".
+May 19 13:31:42 gallia.internal.100do.se systemd[1]: keepalived.service: Main process exited, code=exited, status=203>
+May 19 13:31:42 gallia.internal.100do.se systemd[1]: keepalived.service: Failed with result 'exit-code'.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: keepalived.service: Scheduled restart job, restart counter is at>
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: Stopped Keepalived.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: keepalived.service: Start request repeated too quickly.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: keepalived.service: Failed with result 'exit-code'.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: Failed to start Keepalived.
 
 journalctl -xeu keepalived.service
 
--- The job identifier is 3315239.
-May 19 14:41:12 laiterie.internal.100do.se systemd[479906]: keepalived.service: Failed to execute command: No such fi>
-May 19 14:41:12 laiterie.internal.100do.se systemd[479906]: keepalived.service: Failed at step EXEC spawning /usr/loc>
--- Subject: Process /usr/local/bin/keepalived could not be executed
 -- Defined-By: systemd
 -- Support: http://www.ubuntu.com/support
 --
--- The process /usr/local/bin/keepalived could not be executed and failed.
---
--- The error number returned by this process is ERRNO.
-May 19 14:41:12 laiterie.internal.100do.se systemd[1]: keepalived.service: Main process exited, code=exited, status=2>
--- Subject: Unit process exited
+-- Automatic restarting of the unit keepalived.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: Stopped Keepalived.
+-- Subject: A stop job for unit keepalived.service has finished
 -- Defined-By: systemd
 -- Support: http://www.ubuntu.com/support
 --
--- An ExecStart= process belonging to unit keepalived.service has exited.
+-- A stop job for unit keepalived.service has finished.
 --
--- The process' exit code is 'exited' and its exit status is 203.
-May 19 14:41:12 laiterie.internal.100do.se systemd[1]: keepalived.service: Failed with result 'exit-code'.
+-- The job identifier is 2984446 and the job result is done.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: keepalived.service: Start request repeated too quickly.
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: keepalived.service: Failed with result 'exit-code'.
 -- Subject: Unit failed
 -- Defined-By: systemd
 -- Support: http://www.ubuntu.com/support
 --
 -- The unit keepalived.service has entered the 'failed' state with result 'exit-code'.
-May 19 14:41:12 laiterie.internal.100do.se sudo[479860]: pam_unix(sudo:session): session closed for user root'
+May 19 13:31:44 gallia.internal.100do.se systemd[1]: Failed to start Keepalived.
+-- Subject: A start job for unit keepalived.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+--
+-- A start job for unit keepalived.service has finished with a failure.
+--
+-- The job identifier is 2984446 and the job result is failed.

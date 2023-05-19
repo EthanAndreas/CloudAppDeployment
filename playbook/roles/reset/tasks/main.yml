@@ -1,0 +1,12 @@
+---
+- name: "Stop Nomad"
+  ansible.builtin.systemd:
+    name: nomad.service
+    state: stopped
+  ignore_errors: true
+
+- name: "Stop Consul"
+  ansible.builtin.systemd:
+    name: consul.service
+    state: stopped
+  ignore_errors: true

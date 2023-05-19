@@ -1,0 +1,22 @@
+
+# Start Keepalived after the network is online
+Requires=network-online.target
+After=network-online.target
+
+# Start Keepalived only if the configuration file exists
+ConditionFileNotEmpty=/etc/keepalived/keepalived.conf
+
+[Service]
+EnvironmentFile=-/etc/keepalived/keepalived.conf
+# This is how the service is started
+ExecStart=/usr/sbin/keepalived --dont-fork --dump-conf --log-console
+# Reload the service by sending a SIGHUP
+ExecReload=/bin/kill --signal HUP $MAINPID
+# Stop the service by sending a SIGTERM
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

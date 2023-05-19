@@ -16,7 +16,7 @@ job "cloud" {
         task "frontend" {
             driver = "docker"
             config {
-                image = "ghcr.io/loskeeper/frontend:1.0.0" // Use the image published on the GitHub Container Registry
+                image = "{{ frontend_img }}" // Use the image published on the GitHub Container Registry
                 ports = ["frontend"]
             }
 
@@ -36,7 +36,7 @@ job "cloud" {
         task "worker" {
             driver = "docker"
             config {
-                image = "ghcr.io/loskeeper/worker:1.0.0" // Use the image published on the GitHub Container Registry
+                image = "{{ worker_img }}" // Use the image published on the GitHub Container Registry
                 ports = ["worker"]
             }
 

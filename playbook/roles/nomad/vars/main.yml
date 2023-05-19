@@ -1,0 +1,3 @@
+---
+frontend_img: "ghcr.io/loskeeper/frontend:1.0.0"
+worker_img: "ghcr.io/loskeeper/worker:1.0.0"

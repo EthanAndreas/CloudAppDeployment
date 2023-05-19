@@ -3,9 +3,28 @@
   ansible.builtin.apt:
     name: keepalived
     update_cache: yes
-    
-- name: "Deploy the Keepalived configuration"
-  ansible.builtin.template:
-    src: keepalived.conf
-    dest: /etc/keepalived/keepalived.conf
-  notify: Restart Keepalived
+
+- name: "Create Keepalived configuration directory"
+  ansible.builtin.file:
+    path: /etc/keepalived
+    state: directory
+
+# In case we need to overwrite a wrong configuration file
+# - name: "Deploy Keepalived systemd service"
+#   ansible.builtin.copy:
+#     src: keepalived.service
+#     dest: /etc/systemd/system/keepalived.service
+#   notify: Reload systemd
+
+- include_tasks: server.yml
+
+- name: "Enable and start Keepalived"
+  ansible.builtin.systemd:
+    name: keepalived
+    enabled: true
+    state: started
+
+- name: Restart Keepalived
+  ansible.builtin.systemd:
+    name: keepalived
+    state: restarted

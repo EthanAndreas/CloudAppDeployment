@@ -1,0 +1,6 @@
+---
+- name: "Deploy the configuration"
+  ansible.builtin.template:
+    src: keepalived.conf
+    dest: /etc/keepalived/keepalived.conf
+  notify: Restart Keepalived

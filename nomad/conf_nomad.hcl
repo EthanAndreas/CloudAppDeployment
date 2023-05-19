@@ -18,11 +18,6 @@ job "cloud" {
             config {
                 image = "ghcr.io/loskeeper/frontend:1.0.0" // Use the image published on the GitHub Container Registry
                 ports = ["frontend"]
-                port_map {
-                    frontend = {
-                        static = 3000
-                    }
-                }
             }
 
         }

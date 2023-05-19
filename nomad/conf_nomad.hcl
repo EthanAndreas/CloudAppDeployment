@@ -6,7 +6,7 @@ job "cloud" {
 
         network {
             port "frontend"{
-                static = 8081
+                static = 3000
                 to = 3000
             }
 
@@ -20,6 +20,11 @@ job "cloud" {
             config {
                 image = "ghcr.io/loskeeper/frontend:1.0.0"
                 ports = ["frontend"]
+                port_map {
+                    frontend = {
+                        static = 3000
+                    }
+                }
             }
 
         }

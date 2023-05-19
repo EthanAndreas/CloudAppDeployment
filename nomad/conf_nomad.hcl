@@ -69,9 +69,34 @@ job "cloud" {
                 ports = ["haproxy"]
             }
 
-            // Use the haproxy configuration file
-            resources {
-                imports = ["../loadBalancer/haproxy.cfg"]
+            // Configuration du haproxy
+            template {
+                data = <<EOF
+                global
+                    daemon
+                    maxconn 1024
+
+                defaults
+                    mode http
+                    balance roundrobin
+                    timeout client 60s
+                    timeout connect 60s
+                    timeout server 60s
+
+                frontend http
+                    bind *:8080
+                    default_backend web
+
+                resolvers consul
+                    nameserver consul 172.16.3.4:53
+                    accepted_payload_size 8192
+
+                backend web
+                    balance roundrobin
+                    mode http
+                    server-template frontend _frontend._tcp.service.consul resolvers consul init-addr none
+                EOF
+                destination = "haproxy.cfg"
             }
 
         }

@@ -69,6 +69,6 @@
 
 - name: "Submit Nomad job"
   command: nomad run /etc/nomad.d/jobs/job.hcl
-  delegate_to: "hautepierre"
+  delegate_to: "{{ job_instance_loader }}"
   become: true
   timeout: 300

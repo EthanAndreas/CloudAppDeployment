@@ -10,3 +10,15 @@
     name: consul.service
     state: stopped
   ignore_errors: true
+
+- name: "Stop Keepalived"
+  ansible.builtin.systemd:
+    name: keepalived.service
+    state: stopped
+  ignore_errors: true
+
+- name: "Stop Docker"
+  ansible.builtin.systemd:
+    name: docker.service
+    state: stopped
+  ignore_errors: true

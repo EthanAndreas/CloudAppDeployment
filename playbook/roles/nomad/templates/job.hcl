@@ -1,6 +1,6 @@
 // Create a new job with the name "cloud" corresponding to the datacenter "gare-centrale" for the full project
 job "cloud" {
-    datacenters = ["gare-centrale"]
+    datacenters = ["{{ nomad_datacenter }}"]
 
     // Create a new group for the frontend
     group "frontends"{
@@ -47,7 +47,7 @@ job "cloud" {
     // Create a new group for the haproxy
     group "haproxys"{
         // Use 3 haproxy instances for all the VMs
-        count = 3
+        count = {{ nomad_server_number }}
 
         network {
             port "haproxy"{

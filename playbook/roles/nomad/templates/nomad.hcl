@@ -1,7 +1,5 @@
-{{ ansible_managed | comment }}
-
 # Group name
-datacenter = "gare-centrale"
+datacenter = "{{ nomad_datacenter }}"
 
 # Save the persistent data to /opt/nomad
 data_dir = "/opt/nomad"
@@ -19,13 +17,13 @@ advertise {
 # This node is a server, and expects to be the only server in the cluster
 server {
   enabled = true
-  bootstrap_expect = 3
+  bootstrap_expect = {{ nomad_server_number }}
 }
 
 # This node is not running jobs
 client {
   enabled = true
-  network_interface = "vxlan100"
+  network_interface = "{{ interface_vxlan }}"
 }
 
 # Connect to the local Consul agent

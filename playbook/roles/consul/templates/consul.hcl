@@ -1,5 +1,5 @@
 # Group name
-datacenter = "gare-centrale"
+datacenter = "{{ consul_datacenter }}"
 
 # Save the persistent data to /opt/consul. This directory is owned by the `consul` user.
 data_dir = "/opt/consul"
@@ -21,7 +21,7 @@ server = true
 
 # This server expects to be the only one in the cluster.
 # Comment this line if this is not a server.
-bootstrap_expect = 3
+bootstrap_expect = {{ consul_server_number }}
   
 addresses {
   # Bind the DNS service to the VXLAN interface

@@ -5,10 +5,10 @@
       ansible.builtin.systemd:
         daemon_reload: true
   roles:
-    - role: keepalived
-      tags: keepalived
     - role: docker
       tags: docker
+    - role: keepalived
+      tags: keepalived
     - role: consul
       tags: consul
     - role: nomad

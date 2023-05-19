@@ -1,3 +1,7 @@
 ---
+nomad_datacenter: "gare-centrale"
+nomad_server_number: 3
+interface_vxlan: "vxlan100"
 frontend_img: "ghcr.io/loskeeper/frontend:1.0.0"
 worker_img: "ghcr.io/loskeeper/worker:1.0.0"
+job_instance_loader: "hautepierre"

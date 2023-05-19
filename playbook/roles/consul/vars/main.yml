@@ -1,0 +1,3 @@
+---
+consul_datacenter: "gare-centrale"
+consul_server_number: 3

@@ -21,7 +21,7 @@ server = true
 
 # This server expects to be the only one in the cluster.
 # Comment this line if this is not a server.
-bootstrap_expect = 1
+bootstrap_expect = 3
 
 addresses {
   # Bind the DNS service to the VXLAN interface

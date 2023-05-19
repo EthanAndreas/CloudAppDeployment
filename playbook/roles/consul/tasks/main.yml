@@ -39,3 +39,15 @@
   ansible.builtin.systemd:
     name: consul.service
     state: restarted
+
+# - name: Attendre que Consul démarre
+#   local_action: wait_for
+#   args:
+#     host: localhost
+#     port: 8500
+#     delay: 1
+#     timeout: 10 
+
+- name: Exécuter la commande "consul join gare-centrale"
+  command: consul join gare-centrale
+  become: yes

@@ -5,7 +5,6 @@ datacenter = "gare-centrale"
 
 # Save the persistent data to /opt/nomad
 data_dir = "/opt/nomad"
-node_name = "{{ inventory_hostname }}"
 
 # Allow clients to connect from any interface
 bind_addr = "0.0.0.0"
@@ -20,7 +19,7 @@ advertise {
 # This node is a server, and expects to be the only server in the cluster
 server {
   enabled = true
-  bootstrap_expect = 1
+  bootstrap_expect = 3
 }
 
 # This node is not running jobs

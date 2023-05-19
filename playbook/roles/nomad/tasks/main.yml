@@ -25,6 +25,7 @@
   ansible.builtin.template:
     src: nomad.service
     dest: /etc/systemd/system/nomad.service
+    become: yes
   notify: Reload systemd
 
 - include_tasks: server.yml

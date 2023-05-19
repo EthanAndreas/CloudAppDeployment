@@ -5,6 +5,6 @@
       ansible.builtin.systemd:
         daemon_reload: true
   roles:
-    - role: consul
-    - role: nomad
-    # - role: keepalived
+    # - role: consul
+    # - role: nomad
+    - role: keepalived

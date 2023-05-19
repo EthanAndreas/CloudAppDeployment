@@ -8,9 +8,13 @@ rabbitMQ : file de message entre worker et backend
 
 dockerfile 
 pour web :
-ssh -l 3000:localhost:3000 <name>
+ssh -L 3000:localhost:3000 <name>
 cd web
 docker build -t <name> . 
 docker run -p 3000:3000 <name>
 
 pour worker :
+ssh -L 8080:localhost:8080 <name>
+cd api
+docker build -t <name> .
+docker run -p 8080:8080 <name>

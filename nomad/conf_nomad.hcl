@@ -6,8 +6,8 @@ job "cloud" {
 
         network {
             port "frontend"{
-                static = 3000
-                to = 8081
+                static = 8081
+                to = 3000
             }
 
             port "worker"{

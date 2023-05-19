@@ -1,7 +1,5 @@
-{{ ansible_managed | comment }}
-
 # Group name
-datacenter = "hautepierre"
+datacenter = "gare-centrale"
 
 # Save the persistent data to /opt/consul. This directory is owned by the `consul` user.
 data_dir = "/opt/consul"

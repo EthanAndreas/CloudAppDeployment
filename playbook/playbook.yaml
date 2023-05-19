@@ -1,5 +1,5 @@
 ---
-- hosts: small
+- hosts: all
   handlers:
     - name: Reload systemd
       ansible.builtin.systemd:
@@ -7,4 +7,4 @@
   roles:
     - role: consul
     - role: nomad
-    - role: keepalived
+    # - role: keepalived

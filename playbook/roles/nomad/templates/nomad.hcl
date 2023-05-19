@@ -1,10 +1,11 @@
 {{ ansible_managed | comment }}
 
 # Group name
-datacenter = "hautepierre"
+datacenter = "gare-centrale"
 
 # Save the persistent data to /opt/nomad
 data_dir = "/opt/nomad"
+node_name = "{{ inventory_hostname }}"
 
 # Allow clients to connect from any interface
 bind_addr = "0.0.0.0"
@@ -24,7 +25,7 @@ server {
 
 # This node is not running jobs
 client {
-  enabled = false
+  enabled = true
 }
 
 # Connect to the local Consul agent

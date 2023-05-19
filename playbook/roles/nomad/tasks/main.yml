@@ -36,3 +36,8 @@
     name: nomad.service
     enabled: true
     state: started
+
+- name: "Restart Nomad"
+  ansible.builtin.systemd:
+    name: nomad.service
+    state: restarted

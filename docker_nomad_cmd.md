@@ -9,7 +9,7 @@ docker build -t frontend .
 
 L'image est a present disponible dans le registry local, on peut la voir avec la commande `docker images`. Dans notre cas, on utilisera le registry de Github pour stocker nos images car Nomad peut y acceder.
 ```bash
-docker tag frontend:latest ghcr.io/loskeeper/frontend:v1.0.0
+docker tag frontend ghcr.io/loskeeper/frontend:v1.0.0
 docker push ghcr.io/loskeeper/frontend:v1.0.0
 ```
 
@@ -23,7 +23,7 @@ docker build -t worker .
 
 L'image est a present disponible dans le registry local, on peut la voir avec la commande `docker images`. Dans notre cas, on utilisera le registry de Github pour stocker nos images car Nomad peut y acceder.
 ```bash
-docker tag worker:latest ghcr.io/loskeeper/worker:v1.0.0
+docker tag worker ghcr.io/loskeeper/worker:v1.0.0
 docker push ghcr.io/loskeeper/worker:v1.0.0
 ```
 

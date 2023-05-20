@@ -85,13 +85,7 @@ job "cloud" {
 
         service {
             name = "haproxy"
-
-            check {
-                type     = "http"
-                path     = "/"
-                interval = "10s"
-                timeout  = "2s"
-            }
+            
         }
 
         // Use the haproxy image from the Docker Hub

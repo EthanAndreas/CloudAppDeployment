@@ -17,6 +17,7 @@
   - [Features and limitations](#features-and-limitations)
     - [Features](#features)
     - [Limitations](#limitations)
+  - [Remark](#remark)
 
 ## Abstract
 
@@ -90,3 +91,7 @@ ansible-playbook -i inventory/hosts.ini deploy.yml --tags <role>
 ### Limitations
 
 - The application is not fully functional, the frontend is not able to communicate with the backend, the load balancer is not able to redirect the traffic to the frontend.
+
+## Remark
+
+There is a script ``clear_vm.sh`` to clear all the service used in this project. It must be execute on the VMs directly.

@@ -87,9 +87,8 @@ job "cloud" {
             name = "haproxy"
 
             check {
-                name     = "alive"
-                type     = "tcp"
-                port     = "http"
+                type     = "http"
+                path     = "/"
                 interval = "10s"
                 timeout  = "2s"
             }

@@ -13,6 +13,20 @@ job "cloud" {
             }
 
         }
+
+        service {
+            name = "frontend"
+            port = "frontend"
+            tags = ["http"]
+            check {
+                type     = "http"
+                path     = "/"
+                interval = "10s"
+                timeout  = "2s"
+            }
+        }
+
+
         task "frontend" {
             driver = "docker"
             config {
@@ -33,6 +47,19 @@ job "cloud" {
                 to = 8080
             }
         }
+
+        service {
+            name = "worker"
+            port = "worker"
+            tags = ["http"]
+            check {
+                type     = "http"
+                path     = "/"
+                interval = "10s"
+                timeout  = "2s"
+            }
+        }
+
         task "worker" {
             driver = "docker"
             config {
@@ -53,6 +80,18 @@ job "cloud" {
             port "haproxy"{
                 static = 80
                 to = 80
+            }
+        }
+
+        service {
+            name = "haproxy"
+
+            check {
+                name     = "alive"
+                type     = "tcp"
+                port     = "http"
+                interval = "10s"
+                timeout  = "2s"
             }
         }
 
@@ -84,7 +123,7 @@ job "cloud" {
                     default_backend web
 
                 resolvers consul
-                    nameserver consul https://consul-gare-centrale.100do.se/
+                    nameserver consul 127.0.0.1:8500
                     accepted_payload_size 8192
 
                 backend web

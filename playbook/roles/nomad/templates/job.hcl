@@ -85,7 +85,7 @@ job "cloud" {
 
         service {
             name = "haproxy"
-            
+
         }
 
         // Use the haproxy image from the Docker Hub
@@ -122,7 +122,7 @@ job "cloud" {
                 backend web
                     balance roundrobin
                     mode http
-                    server-template frontend 1 _cloud._tcp.service.consul resolvers consul init-addr none
+                    server-template frontend 1 _frontend._tcp.service.consul resolvers consul init-addr none
                 EOF
                 destination = "local/haproxy.cfg"
             }

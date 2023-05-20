@@ -84,7 +84,7 @@ job "cloud" {
                     default_backend web
 
                 resolvers consul
-                    nameserver consul 127.0.0.1:8500
+                    nameserver consul https://consul-gare-centrale.100do.se/
                     accepted_payload_size 8192
 
                 backend web

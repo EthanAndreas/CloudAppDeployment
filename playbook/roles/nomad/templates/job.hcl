@@ -51,13 +51,6 @@ job "cloud" {
         service {
             name = "worker"
             port = "worker"
-            tags = ["http"]
-            check {
-                type     = "http"
-                path     = "/"
-                interval = "10s"
-                timeout  = "2s"
-            }
         }
 
         task "worker" {

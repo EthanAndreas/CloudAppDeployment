@@ -30,8 +30,6 @@ This project is a collection of scripts, configuration files and applications to
 
 ## Deployment
 
-<br>
-
 ### Create application docker image
 
 <br>
@@ -56,8 +54,6 @@ Backend image :
 
 ``<registry>`` is the Github registry where you want to push the image with their version ``<tag>``.
 
-<br>
-
 ### Deploy the application
 
 <br>
@@ -77,8 +73,6 @@ ansible-playbook -i inventory/hosts.ini deploy.yml --tags <role>
 ``<role>`` is the role you want to deploy (``consul``, ``nomad``, ``keepalived``, ``docker``).
 
 ## Features and limitations 
-
-<br>
 
 ### Features
 
